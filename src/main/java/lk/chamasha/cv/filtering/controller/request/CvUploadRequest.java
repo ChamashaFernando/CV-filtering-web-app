@@ -2,7 +2,7 @@ package lk.chamasha.cv.filtering.controller.request;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class CVFilterRequest {
+public class CvUploadRequest {
     private MultipartFile file;
 
     public MultipartFile getFile() {
