@@ -1,6 +1,5 @@
 package lk.chamasha.cv.filtering.service.impl;
 
-
 import lk.chamasha.cv.filtering.model.Cv;
 import lk.chamasha.cv.filtering.repository.CvRepository;
 import lk.chamasha.cv.filtering.service.CvService;
@@ -10,19 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-
 public class CvServiceImpl implements CvService {
-    @Autowired
-    private CvRepository cvRepository;
+
+    private final CvRepository cvRepository;
+    private final TechnologyService technologyService;
 
     @Autowired
-    private TechnologyService technologyService;
+    public CvServiceImpl(CvRepository cvRepository, TechnologyService technologyService) {
+        this.cvRepository = cvRepository;
+        this.technologyService = technologyService;
+    }
 
     @Override
     public Cv saveCv(MultipartFile file) {
@@ -34,8 +35,10 @@ public class CvServiceImpl implements CvService {
                 cvText = CvTextExtractor.extractTextFromPdf(file);
             } else if ("text/plain".equals(contentType)) {
                 cvText = CvTextExtractor.extractTextFromTxt(file);
+            } else if ("application/vnd.openxmlformats-officedocument.wordprocessingml.document".equals(contentType)) {
+                cvText = CvTextExtractor.extractTextFromDocx(file);
             } else {
-                throw new RuntimeException("Unsupported file type");
+                throw new RuntimeException("Unsupported file type: " + contentType);
             }
         } catch (Exception e) {
             throw new RuntimeException("Failed to extract text from CV", e);

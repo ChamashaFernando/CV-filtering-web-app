@@ -1,11 +1,9 @@
 package lk.chamasha.cv.filtering.service.impl;
 
-
 import lk.chamasha.cv.filtering.model.Technology;
 import lk.chamasha.cv.filtering.repository.TechnologyRepository;
 import lk.chamasha.cv.filtering.service.TechnologyService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +14,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TechnologyServiceImpl implements TechnologyService {
 
-    private TechnologyRepository technologyRepository;
+    private final TechnologyRepository technologyRepository;
 
+    @Override
     public Technology addTechnology(String name) {
         return technologyRepository.findByNameIgnoreCase(name.trim())
                 .orElseGet(() -> technologyRepository.save(new Technology(name.trim())));

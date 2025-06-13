@@ -1,6 +1,5 @@
 package lk.chamasha.cv.filtering.controller;
 
-
 import lk.chamasha.cv.filtering.model.Cv;
 import lk.chamasha.cv.filtering.service.CvService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
+@RequestMapping("/cv")
 public class CVController {
+
     @Autowired
     private CvService cvService;
 
@@ -28,7 +29,7 @@ public class CVController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/cvs")
+    @GetMapping("/all")
     public ResponseEntity<List<Cv>> getAllCvs() {
         return ResponseEntity.ok(cvService.getAllCvs());
     }

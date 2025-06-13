@@ -1,7 +1,4 @@
 package lk.chamasha.cv.filtering.controller.request;
-
-
-
 public class AddTechnologyRequest {
     private String name;
 
